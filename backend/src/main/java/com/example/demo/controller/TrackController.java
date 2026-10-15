@@ -1,18 +1,19 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.TrackCreateDto;
 import com.example.demo.model.Track;
 import com.example.demo.service.TrackService;
-import org.springframework.web.bind.annotation.*;
-import com.example.demo.dto.TrackCreateDto;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/tracks")
+@CrossOrigin(origins = "*") // <-- THIS UNLOCKS THE BROWSER SECURITY
 public class TrackController {
 
-    // Inject the Service, NOT the Repository
     private final TrackService trackService;
 
     public TrackController(TrackService trackService) {
@@ -20,27 +21,25 @@ public class TrackController {
     }
 
     @PostMapping
-    public Track createTrack(@Valid @RequestBody TrackCreateDto dto) {
-        // Map the DTO data into a real database Entity
-        Track trackToSave = new Track(
-            dto.getTitle(), 
-            dto.getPrimaryArtist(), 
-            dto.getProducerSplitPercentage()
-        );
-        
-        return trackService.saveTrack(trackToSave);
+    public ResponseEntity<Track> createTrack(@Valid @RequestBody TrackCreateDto trackDto) {
+        Track track = new Track();
+        track.setTitle(trackDto.getTitle());
+        track.setPrimaryArtist(trackDto.getPrimaryArtist());
+        track.setProducerSplitPercentage(trackDto.getProducerSplitPercentage());
+
+        return ResponseEntity.ok(trackService.saveTrack(track));
     }
 
-    @GetMapping
-    public List<Track> getAllTracks() {
-        return trackService.getAllTracks();
-    }
-
-    // New endpoint to calculate the split
-    // Example URL: GET /api/tracks/1/payout?revenue=1000
     @GetMapping("/{id}/payout")
-    public String getProducerPayout(@PathVariable Long id, @RequestParam double revenue) {
+    public ResponseEntity<Map<String, String>> calculatePayout(
+            @PathVariable Long id,
+            @RequestParam double revenue) {
+        
         double payout = trackService.calculateProducerPayout(id, revenue);
-        return String.format("Total Revenue: $%.2f | Producer Payout: $%.2f", revenue, payout);
+        
+        return ResponseEntity.ok(Map.of(
+                "Total Revenue", "$" + String.format("%.2f", revenue),
+                "Producer Payout", "$" + String.format("%.2f", payout)
+        ));
     }
 }

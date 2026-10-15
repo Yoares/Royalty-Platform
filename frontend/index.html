@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royalty API Dashboard</title>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 2rem; background: #121212; color: #fff; }
+        .card { background: #1e1e1e; padding: 2rem; border-radius: 8px; max-width: 400px; }
+        input { display: block; width: 90%; margin-bottom: 1rem; padding: 0.5rem; }
+        button { background: #00ff88; color: #000; border: none; padding: 0.5rem 1rem; cursor: pointer; font-weight: bold; }
+        pre { background: #000; padding: 1rem; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Add New Track</h2>
+        <form id="trackForm">
+            <input type="text" id="title" placeholder="Track Title (e.g. SURFER BOY)" required>
+            <input type="text" id="artist" placeholder="Primary Artist (e.g. ARES.thereal)" required>
+            <input type="number" id="percentage" placeholder="Producer Split %" step="0.1" required>
+            <button type="submit">Save Track</button>
+        </form>
+        
+        <h3>API Response:</h3>
+        <pre id="output">Waiting for action...</pre>
+    </div>
+        <script src="app.js"></script>
+        <div class="card" style="margin-top: 2rem;">
+        <h2>Calculate Split Payout</h2>
+        <form id="payoutForm">
+            <input type="number" id="trackId" placeholder="Track ID (e.g. 1)" required>
+            <input type="number" id="revenue" placeholder="Total Revenue ($)" step="0.01" required>
+            <button type="submit" style="background: #00aaff;">Calculate Payout</button>
+        </form>
+        
+        <h3>Result:</h3>
+        <pre id="payoutOutput">Waiting for revenue data...</pre>
+    </div>
+</body>
+</html>
