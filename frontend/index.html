@@ -25,8 +25,18 @@
         <h3>API Response:</h3>
         <pre id="output">Waiting for action...</pre>
     </div>
-        <script src="app.js"></script>
-        <div class="card" style="margin-top: 2rem;">
+
+    <div class="card" style="margin-top: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Track Catalog</h2>
+            <button id="loadTracksBtn" style="background: #bb86fc;">Refresh List</button>
+        </div>
+        <ul id="trackList" style="list-style: none; padding: 0; margin-top: 1rem;">
+            <!-- JavaScript will inject track items here -->
+        </ul>
+    </div>
+
+    <div class="card" style="margin-top: 2rem;">
         <h2>Calculate Split Payout</h2>
         <form id="payoutForm">
             <input type="number" id="trackId" placeholder="Track ID (e.g. 1)" required>
@@ -37,5 +47,8 @@
         <h3>Result:</h3>
         <pre id="payoutOutput">Waiting for revenue data...</pre>
     </div>
+
+    <!-- Script tag moved to the VERY BOTTOM -->
+    <script src="app.js"></script>
 </body>
 </html>

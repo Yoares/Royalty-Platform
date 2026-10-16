@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List; // <-- ADD THIS EXACT LINE
 import java.util.Map;
 
 @RestController
@@ -41,5 +42,10 @@ public class TrackController {
                 "Total Revenue", "$" + String.format("%.2f", revenue),
                 "Producer Payout", "$" + String.format("%.2f", payout)
         ));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Track>> getAllTracks() {
+        return ResponseEntity.ok(trackService.getAllTracks());
     }
 }
